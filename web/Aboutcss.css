@@ -1,0 +1,42 @@
+body {
+  background-color: #dadada;
+  font-family: Arial, sans-serif;
+  /* margin: 0;
+  padding: 0; */
+}
+
+.container {
+  width: 80%;
+  max-width: 600px;
+  margin: 50px auto;
+  padding: 25px;
+  /* border-radius: 10px; */
+}
+
+h1 {
+  text-align: center;
+  /* color: #000000; */
+}
+
+.intro {
+  text-align: center;
+  /* line-height: 1.5; */
+  /* color: #000000; */
+  /* margin-bottom: 30px; */
+}
+
+.contact-info {
+  /* margin-top: 30px; */
+  text-align: center;
+  color: #000000;
+}
+.social-links a {
+  /* text-decoration: none; */
+  color: #000000;
+  /* margin: 0 10px; */
+  font-weight: bold;
+}
+.social-links a:hover {
+  /* text-decoration: underline; */
+  color: #555;
+}

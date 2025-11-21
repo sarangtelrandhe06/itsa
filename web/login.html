@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Student Login Form</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+  body { font-family: Arial, sans-serif; background-color: #dadada; margin: 0; }
+
+  header {
+    background-color: #8B0000;
+    padding: 15px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    text-align: center;
+  }
+
+  header h1,
+  header p,
+  header .title,
+  header .title * {
+    color: white !important;
+  }
+
+  header img {
+    width: 120px;
+    height: 120px;
+    margin: 0 20px;
+    border-radius: 50%;
+    background-color: white;
+    object-fit: cover;
+  }
+
+  header .title {
+    flex: 1;
+  }
+
+  nav {
+    width: 100%;
+    background: red;
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    padding: 14px 0;
+  }
+
+  nav a {
+    background: white;
+    color: #8B0000;
+    padding: 8px 18px;
+    border-radius: 18px;
+    font-weight: 600;
+    text-decoration: none;
+    font-size: 15px;
+    border: 2px solid transparent;
+    transition: 0.25s ease;
+  }
+
+  nav a:hover {
+    background: #8B0000;
+    color: #ffd700;
+    border-color: white;
+  }
+
+  .login-container {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 0 15px gray;
+    width: 350px;
+    text-align: left;
+    padding: 50px;
+    margin: 60px auto;
+  }
+
+  input[type="text"], input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid gray;
+    border-radius: 5px;
+  }
+
+  .btn-login {
+    width: 100%;
+    background-color: green;
+    color: white;
+    border: none;
+    padding: 10px;
+    font-size: 18px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+
+  }
+
+  .btn-login:hover {
+    background-color: lightgreen;
+  }
+
+  .remember-me {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 15px;
+  }
+
+.bottom {
+    margin-top: 15px;
+    text-align: center;
+  }
+
+
+  footer {
+    width: 100%;
+    background-color: red;
+    color: white;
+    text-align: center;
+    height: 45px;
+    line-height: 45px;
+    font-size: 14px;
+  }
+
+</style>
+</head>
+
+<body>
+
+<header>
+    <img src="logo MGICOET.jpg" alt="Mauli College Logo">
+    <div class="title">
+      <h1>ITSA Community Platform</h1>
+      <p>MAULI GROUP OF INSTITUTION'S College of Engineering and Technology, Shegaon.<br>
+        AICTE Approved • SGBAU Affiliated • ISO 9001:2015 Certified</p>
+    </div>
+    <img src="logo.png" alt="ITSA Logo">
+</header>
+
+<nav>
+  <a href="Itsa Platform.html">Home</a>
+  <a href="events.html">Events</a>
+  <a href="Alumni.html">Alumni</a>
+  <a href="members.html">Members</a>
+  <a href="Contactus.html">Contact Us</a>
+  <a href="Aboutus.html">About Us</a>
+  <a href="login.html">SignUp/SignIn</a>
+</nav>
+
+<div class="login-container">
+ <h1><center>Log In</center></h1>
+
+  <form id="loginForm">
+
+    <label>Username (Email)</label>
+    <input type="text" id="username" placeholder="Enter Email">
+    <br><br>
+    <label>Password</label>
+    <input type="password" id="password" placeholder="Enter Password">
+
+    <button type="submit" class="btn-login">Login</button>
+
+    <div class="remember-me">
+      <div><input type="checkbox" id="remember"> Remember me</div>
+      <a href="forgot.html">Forgot password?</a>
+    </div>
+
+<div class="bottom">
+      <br>
+      Don't have an account? <a href="registration.html">Sign Up</a>
+</div>
+
+
+  </form>
+</div>
+
+<footer>© 2025 ITSA Mauli College | All Rights Reserved</footer>
+
+<!-- ⭐ ADD LOGIN CHECK USING LOCAL STORAGE -->
+<script>
+window.onload = function() {
+  if(localStorage.getItem("savedEmail")){
+    document.getElementById("username").value = localStorage.getItem("savedEmail");
+    document.getElementById("remember").checked = true;
+  }
+};
+
+document.getElementById("loginForm").addEventListener("submit", function(e){
+  e.preventDefault();
+
+  const savedUser = JSON.parse(localStorage.getItem("registeredUser"));
+
+  if(!savedUser){
+    alert("No user registered! Please sign up first.");
+    return;
+  }
+
+  let email = document.getElementById("username").value;
+  let pass = document.getElementById("password").value;
+
+  if(email === savedUser.email && pass === savedUser.password){
+    
+    if(document.getElementById("remember").checked){
+      localStorage.setItem("savedEmail", email);
+    } else {
+      localStorage.removeItem("savedEmail");
+    }
+
+    localStorage.setItem("isLoggedIn", "true");
+
+    alert("Login Successful!");
+    window.location.href = "Itsa Platform.html";
+  }
+  else{
+    alert("❌ Incorrect email or password!");
+  }
+});
+
+// ⭐ CHANGE SIGNUP/SIGNIN TO LOGOUT AFTER LOGIN
+function updateLoginButton() {
+  const loginLink = document.querySelector('nav a[href="login.html"]');
+
+  if (localStorage.getItem("isLoggedIn") === "true") {
+    loginLink.textContent = "Logout";
+    loginLink.href = "#";
+
+    loginLink.onclick = function () {
+      localStorage.removeItem("isLoggedIn");
+      alert("Logged out successfully!");
+      location.reload();
+    };
+  }
+}
+
+// Run on page load
+updateLoginButton();
+
+</script>
+
+</body>
+</html>

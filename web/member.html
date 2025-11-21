@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ITSA Members</title>
+
+<style>
+    body {
+        margin: 0;
+        font-family: "Poppins", sans-serif;
+        background: #f3f7ff;
+    }
+
+    .hero {
+        background: linear-gradient(90deg, #0066ff, #4d9dff);
+        padding: 35px 25px;
+        color: white;
+        border-radius: 0 0 30px 30px;
+    }
+
+    .title {
+        font-size: 28px;
+        font-weight: 700;
+        line-height: 33px;
+    }
+
+    .search-box {
+        width: 85%;
+        margin: 20px auto;
+        background: white;
+        border-radius: 20px;
+        padding: 15px;
+        font-size: 16px;
+        border: 1px solid #d4d9e5;
+    }
+
+    .chip-container {
+        padding: 20px;
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .chip {
+        padding: 10px 18px;
+        border-radius: 25px;
+        background: white;
+        border: 1px solid #d4d9e5;
+        cursor: pointer;
+        font-size: 15px;
+        transition: 0.2s;
+    }
+
+    .chip.active {
+        background: #0066ff;
+        color: white;
+        border-color: #0066ff;
+    }
+
+    .heading {
+        text-align: center;
+        font-size: 28px;
+        font-weight: 800;
+        margin-top: 10px;
+    }
+
+    .members-grid {
+        padding: 20px;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 20px;
+    }
+
+    .card {
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 5px 18px rgba(0, 0, 0, 0.08);
+        overflow: hidden;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+    .card:hover {
+        transform: scale(1.02);
+    }
+
+    .photo img {
+        width: 100%;
+        height: 260px;
+        object-fit: cover;
+    }
+
+    .card-body {
+        padding: 15px 20px;
+        text-align: center;
+    }
+
+    .name {
+        font-size: 20px;
+        font-weight: 700;
+    }
+
+    .role {
+        font-size: 17px;
+        color: #4b5c6b;
+        margin-top: 4px;
+    }
+
+    .group-tag {
+        margin-top: 6px;
+        font-size: 14px;
+        color: #6b7b90;
+    }
+
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+    <div class="title">Information<br>Technology<br>Students' Association</div>
+    <div style="margin-top:10px;font-size:15px;">Mauli Group of Institutions • COET Shegaon</div>
+</div>
+
+<!-- SEARCH -->
+<input type="text" id="searchInput" class="search-box" placeholder="Search by name or role...">
+
+<!-- TABS -->
+<div class="chip-container">
+    <div class="chip active" data-group="All Members">All Members</div>
+    <div class="chip" data-group="Faculty Heads">Faculty Heads</div>
+    <div class="chip" data-group="Core Committee">Core Committee</div>
+    <div class="chip" data-group="Resource Management">Resource Management</div>
+    <div class="chip" data-group="Technical">Technical</div>
+    <div class="chip" data-group="Marketing">Marketing</div>
+    <div class="chip" data-group="Discipline">Discipline</div>
+    <div class="chip" data-group="Decoration">Decoration</div>
+</div>
+
+<!-- GROUP HEADING -->
+<div class="heading" id="groupTitle">ALL MEMBERS</div>
+
+<!-- MEMBERS GRID -->
+<div class="members-grid" id="grid"></div>
+
+
+
+<script>
+/* ------------ MEMBERS DATA ------------ */
+const members = [
+
+    /* FACULTY HEADS */
+    { name:"Dr. C. M. Jadhao", role:"Principal", group:"Faculty Heads", photo:"" },
+    { name:"Dr. P. M. Hasabnis", role:"HOD, IT", group:"Faculty Heads", photo:"" },
+    { name:"Prof. A. S. Kakad", role:"Academic Coordinator", group:"Faculty Heads", photo:"" },
+    { name:"Prof. V. M. Jawade", role:"ITSA Co-Coordinator", group:"Faculty Heads", photo:"" },
+
+    /* CORE */
+    { name:"Mr. Advait Lanjewar", role:"Chairperson", group:"Core Committee", photo:"" },
+    { name:"Ms. Dhanashri Yedange", role:"Vice-Chairperson", group:"Core Committee", photo:"" },
+    { name:"Ms. Kalyani Chavan", role:"Secretary", group:"Core Committee", photo:"" },
+    { name:"Ms. Latika Kutemate", role:"Treasurer", group:"Core Committee", photo:"" },
+
+    /* RESOURCE */
+    { name:"Ms. Siddhi Welankar", role:"Resource Manager", group:"Resource Management", photo:"" },
+    { name:"Mr. Shrikant Bhagat", role:"Resource Manager", group:"Resource Management", photo:"" },
+    { name:"Mr. Om Raut", role:"Resource Manager", group:"Resource Management", photo:"" },
+    { name:"Mr. Abhijeet Zambare", role:"Resource Manager", group:"Resource Management", photo:""" },
+    { name:"Mr. Aniket Javare", role:"Resource Manager", group:"Resource Management", photo:""" },
+    { name:"Ms. Shruti Bhailtilak", role:"Resource Manager", group:"Resource Management", photo:"" },
+
+    /* TECHNICAL */
+    { name:"Mr. Shivam Patale", role:"Technical Advisor", group:"Technical", photo:"" },
+    { name:"Ms. Shweta Bodade", role:"Technical Advisor", group:"Technical", photo:"" },
+    { name:"Mr. Yogesh Hake", role:"Technical Advisor", group:"Technical", photo:"" },
+
+    /* MARKETING */
+    { name:"Mr. Sarvesh Waghmare", role:"Marketing Head", group:"Marketing", photo:"" },
+
+    /* DISCIPLINE */
+    { name:"Mr. Pranav Shelke", role:"Discipline Manager", group:"Discipline", photo:"" },
+    { name:"Ms. Divya Bahekar", role:"Discipline Manager", group:"Discipline", photo:"" },
+    { name:"Ms. Sakshi Ubale", role:"Discipline Manager", group:"Discipline", photo:"" },
+    { name:"Mr. Chandan Walke", role:"Discipline Manager", group:"Discipline", photo:"" },
+
+    /* DECORATION */
+    { name:"Ms. Nikita Gadge", role:"Decoration Manager", group:"Decoration", photo:"" },
+    { name:"Ms. Kanchan Raundale", role:"Decoration Manager", group:"Decoration", photo:"" },
+    { name:"Ms. Khushi Ingle", role:"Decoration Manager", group:"Decoration", photo:"" },
+    { name:"Ms. Gauri Mundhe", role:"Decoration Manager", group:"Decoration", photo:"" },
+    { name:"Ms. Farah Naz", role:"Decoration Manager", group:"Decoration", photo:"" },
+
+];
+
+
+/* ------------ RENDER FUNCTION ------------ */
+function render(group="All Members") {
+    const grid = document.getElementById("grid");
+    grid.innerHTML = "";
+
+    document.getElementById("groupTitle").textContent = group.toUpperCase();
+
+    const filtered = members.filter(m =>
+        group === "All Members" ? true : m.group === group
+    );
+
+    filtered.forEach(m => {
+        grid.innerHTML += `
+        <div class="card">
+            <div class="photo">
+                <img src="${m.photo || 'https://via.placeholder.com/300'}">
+            </div>
+            <div class="card-body">
+                <div class="name">${m.name}</div>
+                <div class="role">${m.role}</div>
+                <div class="group-tag">${m.group}</div>
+            </div>
+        </div>`;
+    });
+}
+
+render();
+
+/* ------------ TABS ------------ */
+document.querySelectorAll(".chip").forEach(chip => {
+    chip.addEventListener("click", () => {
+        document.querySelectorAll(".chip").forEach(c => c.classList.remove("active"));
+        chip.classList.add("active");
+        render(chip.dataset.group);
+    });
+});
+
+/* ------------ SEARCH ------------ */
+document.getElementById("searchInput").addEventListener("input", e => {
+    const term = e.target.value.toLowerCase();
+    document.querySelectorAll(".card").forEach(card => {
+        const text = card.textContent.toLowerCase();
+        card.style.display = text.includes(term) ? "" : "none";
+    });
+});
+
+</script>
+
+</body>
+</html>

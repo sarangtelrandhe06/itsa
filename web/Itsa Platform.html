@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ITSA Community Platform</title>
+
+  <style>
+
+    /* ⭐ Light Background Image Behind Whole Page */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 95%;
+      height: 95%;
+      background: url("logo.png") no-repeat center center/contain;
+      opacity: 0.20;
+      z-index: -1;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #dadada;
+      color: #333;
+    }
+
+    header {
+      background-color: #8B0000;
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 150px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      text-align: center;
+    }
+
+    header h1, header p, header .title, header .title * {
+      color: white !important;
+    }
+
+    header img {
+      width: 120px;
+      height: 120px;
+      margin: 0 20px;
+      border-radius: 50%;
+      background-color: white;
+      object-fit: cover;
+    }
+
+    header .title {
+      flex: 1;
+    }
+
+    /* ⭐ Full-Width Navigation Bar */
+    nav {
+      width: 100%;
+      background: red;
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      padding: 14px 0;
+      box-sizing: border-box;
+    }
+
+    nav a {
+      background: white;
+      color: #8B0000;
+      padding: 8px 18px;
+      border-radius: 18px;
+      font-weight: 600;
+      text-decoration: none;
+      font-size: 15px;
+      border: 2px solid transparent;
+      transition: 0.25s ease;
+    }
+
+    nav a:hover {
+      background: #8B0000;
+      color: #ffd700;
+      border-color: white;
+    }
+
+    .hero {
+      color: black;
+      text-align: center;
+      padding: 90px 80px;
+    }
+
+    .hero h1 {
+      font-size: 2.5em;
+      margin-bottom: 10px;
+    }
+
+    .hero p {
+      font-size: 1.1em;
+      margin-bottom: 30px;
+    }
+
+    .btn {
+      display: inline-block;
+      margin: 10px;
+      padding: 10px 20px;
+      background-color: #ffd700;
+      color: red;
+      border-radius: 5px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+
+    .btn:hover {
+      background-color: #ffc107;
+    }
+
+    footer {
+      background-color: red;
+      color: white;
+      text-align: center;
+      padding: 1px 0;
+      margin-top: 30px;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+    <img src="logo MGICOET.jpg" alt="Mauli College Logo">
+
+    <div class="title">
+      <h1>ITSA Community Platform</h1>
+      <p>
+        MAULI GROUP OF INSTITUTION'S College of Engineering and Technology, Shegaon.<br>
+        AICTE Approved • SGBAU Affiliated • ISO 9001:2015 Certified
+      </p>
+    </div>
+
+    <img src="logo.png" alt="ITSA Logo">
+</header>
+
+<!-- ⭐ Navigation -->
+<nav id="navbar">
+  <a href="Itsa Platform.html">Home</a>
+
+  <!-- Protected Tabs (Visible Only After Login) -->
+  <a href="events.html" class="protected">Events</a>
+  <a href="Alumni.html" class="protected">Alumni</a>
+  <a href="members.html" class="protected">Members</a>
+
+  <!-- Always Visible -->
+  <a href="Contactus.html">Contact Us</a>
+  <a href="Aboutus.html">About Us</a>
+
+  <!-- Visible Only When NOT Logged In -->
+  <a href="user.html" id="userTab">User</a>
+
+  <!-- Login / Logout -->
+  <a href="login.html" id="loginBtn">SignUp/SignIn</a>
+</nav>
+
+<section class="hero">
+  <h1>Welcome to the ITSA Platform</h1>
+  <p>Connect, Learn, and Grow with the IT Students Community.</p>
+  <p>
+    The Information Technology Students Association (ITSA) is a student-driven community 
+    that encourages innovation, teamwork, and technical excellence.
+    <br><br>
+    ITSA actively conducts workshops, coding competitions, seminars, and hands-on events 
+    to enhance technical knowledge and leadership skills among students.
+    <br><br>
+    Our mission is to create a strong learning environment where students collaborate, 
+    build real-world projects, and prepare for future careers in technology.
+  </p>
+</section>
+
+<footer>
+  <p>© 2025 ITSA Mauli College | All Rights Reserved</p>
+</footer>
+
+<script>
+// ⭐ CONTROL TAB VISIBILITY BASED ON LOGIN
+function updateNavigation() {
+  const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+
+  const protectedTabs = document.querySelectorAll(".protected");
+  const userTab = document.getElementById("userTab");
+  const loginBtn = document.getElementById("loginBtn");
+
+  // Show protected tabs only if logged in
+  protectedTabs.forEach(tab => {
+    tab.style.display = isLoggedIn ? "inline-block" : "none";
+  });
+
+  // Show user tab only when NOT logged in
+  userTab.style.display = isLoggedIn ? "none" : "inline-block";
+
+  // Change login button to logout
+  if (isLoggedIn) {
+    loginBtn.textContent = "Logout";
+    loginBtn.href = "#";
+    loginBtn.onclick = function () {
+      localStorage.removeItem("isLoggedIn");
+      alert("Logged out successfully!");
+      location.reload();
+    };
+  } else {
+    loginBtn.textContent = "SignUp/SignIn";
+    loginBtn.href = "login.html";
+    loginBtn.onclick = null;
+  }
+}
+
+// Run when page loads
+updateNavigation();
+</script>
+
+</body>
+</html>
+s

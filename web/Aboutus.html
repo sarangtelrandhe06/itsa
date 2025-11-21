@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Us - ITSA</title>
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background-color: #dadada;
+    }
+
+    /* ⭐ FULL-SCREEN HEADER */
+    header {
+      background-color: #8B0000;
+      color: white;
+      padding: 1px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      text-align: center;
+    }
+
+    header img {
+      width: 120px;
+      height: 120px;
+      margin: 0 20px;
+      border-radius: 50%;
+      background-color: white;
+      object-fit: cover;
+    }
+
+    header .title {
+      flex: 1;
+    }
+
+    /* ⭐ NAVIGATION BAR */
+    nav {
+      width: 100%;
+      background: red;
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      padding: 14px 0;
+      box-sizing: border-box;
+    }
+
+    nav a {
+      background: white;
+      color: #8B0000;
+      padding: 8px 18px;
+      border-radius: 18px;
+      font-weight: 600;
+      text-decoration: none;
+      font-size: 14px;
+      border: 1px solid transparent;
+      transition: 0.25s ease;
+    }
+
+    nav a:hover {
+      background: #8B0000;
+      color: #ffd700;
+      border-color: white;
+    }
+
+    /* ⭐ ABOUT CONTAINER */
+    .container {
+      margin: 40px auto;
+      padding: 84px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.3);
+      text-align: center;
+      background: white;
+      width: 40%;
+      font-size: 25px;
+    }
+
+    .container h1 {
+      font-weight: 800;
+      color: black;
+    }
+
+    .intro {
+      font-size: 16px;
+      color: #333;
+    }
+
+    /* ⭐ FOOTER */
+    footer {
+      width: 100%;
+      background-color: red;
+      color: white;
+      text-align: center;
+      height: 45px;
+      line-height: 45px;
+      margin-top: 20px;
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <!-- ⭐ HEADER -->
+  <header>
+    <img src="logo MGICOET.jpg" alt="Mauli College Logo">
+
+    <div class="title">
+      <h1>ITSA Community Platform</h1>
+      <p>
+        MAULI GROUP OF INSTITUTION'S College of Engineering and Technology, Shegaon.<br>
+        AICTE Approved • SGBAU Affiliated • ISO 9001:2015 Certified
+      </p>
+    </div>
+
+    <img src="logo.png" alt="ITSA Logo">
+  </header>
+
+  <!-- ⭐ NAVIGATION BAR -->
+  <nav id="navbar">
+    <a href="Itsa Platform.html">Home</a>
+
+    <!-- Visible only after login -->
+    <a href="events.html" class="protected">Events</a>
+    <a href="Alumni.html" class="protected">Alumni</a>
+    <a href="members.html" class="protected">Members</a>
+
+    <!-- Always visible -->
+    <a href="Contactus.html">Contact Us</a>
+    <a href="Aboutus.html">About Us</a>
+
+    <!-- Visible only when NOT logged in -->
+    <a href="user.html" id="userTab">User</a>
+
+    <!-- Login / Logout -->
+    <a href="login.html" id="loginBtn">SignUp/SignIn</a>
+  </nav>
+
+  <!-- ⭐ ABOUT CONTENT -->
+  <div class="container">
+    <h2>About Us</h2>
+    <p class="intro">
+      Welcome to the Information Technology Student Association (ITSA)!<br><br>
+      Established in 2024, ITSA is a student-led committee dedicated to promoting innovation,
+      teamwork, and technical excellence among IT students.<br><br>
+      Our goal is to create a platform where students can learn, collaborate,
+      and grow through workshops, coding events, and community-driven projects.
+    </p>
+  </div>
+
+  <!-- ⭐ FOOTER -->
+  <footer>
+    © 2025 ITSA Mauli College | All Rights Reserved
+  </footer>
+
+<script>
+// ⭐ CONTROL TAB VISIBILITY BASED ON LOGIN
+function updateNavigation() {
+  const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+
+  const protectedTabs = document.querySelectorAll(".protected");
+  const userTab = document.getElementById("userTab");
+  const loginBtn = document.getElementById("loginBtn");
+
+  // Show protected tabs only if logged in
+  protectedTabs.forEach(tab => {
+    tab.style.display = isLoggedIn ? "inline-block" : "none";
+  });
+
+  // Show user tab only when NOT logged in
+  userTab.style.display = isLoggedIn ? "none" : "inline-block";
+
+  // Change SignUp/SignIn to Logout
+  if (isLoggedIn) {
+    loginBtn.textContent = "Logout";
+    loginBtn.href = "#";
+
+    loginBtn.onclick = function () {
+      localStorage.removeItem("isLoggedIn");
+      alert("Logged out successfully!");
+      location.reload();
+    };
+
+  } else {
+    loginBtn.textContent = "SignUp/SignIn";
+    loginBtn.href = "login.html";
+    loginBtn.onclick = null;
+  }
+}
+
+// Run on page load
+updateNavigation();
+</script>
+
+</body>
+</html>

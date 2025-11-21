@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>ITSA Admin Panel</title>
+<style>
+:root { --brand:#8B0000; --accent:#d32f2f; --muted:#f6f6f6; }
+body{ margin:0; font-family:Arial, sans-serif; background:#f2f4f5; color:#111; }
+header{ background:var(--brand); color:#fff; height:150px; display:flex; align-items:center; justify-content:space-between; padding:0 12px; box-sizing:border-box;}
+header img{ width:120px; height:120px; border-radius:50%; background:#fff; object-fit:cover; margin:15px;}
+header .title{ flex:1; text-align:center; }
+nav{ width:100%; background:var(--accent); display:flex; justify-content:center; gap:12px; padding:10px 0; box-sizing:border-box; }
+nav a{ background:#fff; color:var(--brand); padding:8px 18px; border-radius:18px; text-decoration:none; font-weight:600; border:2px solid transparent; }
+nav a:hover{ background:var(--brand); color:#ffd700; border-color:#fff; }
+
+.container{ max-width:1200px; margin:22px auto 120px; padding:12px; display:flex; gap:18px; box-sizing:border-box; }
+.sidebar{ width:260px; background:#fff; border-radius:10px; padding:12px; box-shadow:0 6px 18px rgba(0,0,0,.06); position:sticky; top:20px; height:calc(100vh - 220px); overflow:auto; }
+.sidebar button{ width:100%; padding:10px; margin:6px 0; border-radius:8px; border:none; background:var(--muted); cursor:pointer; text-align:left; font-weight:600;}
+.sidebar button.active{ background:var(--brand); color:#fff; }
+.main{ flex:1; min-height:400px; }
+.card{ background:#fff; padding:16px; border-radius:8px; box-shadow:0 6px 18px rgba(0,0,0,.06); margin-bottom:18px; }
+h2{ margin:6px 0 12px 0; color:var(--brand); }
+input, textarea, select { width:100%; padding:10px; margin:8px 0; box-sizing:border-box; border-radius:6px; border:1px solid #ccc; }
+.table { width:100%; border-collapse:collapse; margin-top:10px; font-size:14px; }
+.table th, .table td { padding:10px; border:1px solid #e6e6e6; text-align:left; vertical-align:top; }
+.table th{ background:#fafafa; font-weight:700; }
+.btn{ background:var(--brand); color:#fff; padding:8px 12px; border:none; border-radius:6px; cursor:pointer; font-weight:700; }
+.btn.danger{ background:#c0392b; }
+.small{ font-size:13px; color:#666; }
+.footer{ position:fixed; left:0; right:0; bottom:0; background:var(--accent); color:#fff; text-align:center; padding:8px; }
+
+/* responsive */
+@media (max-width:900px){
+  .container{ flex-direction:column; padding:12px; }
+  .sidebar{ width:100%; position:relative; height:auto; }
+}
+</style>
+</head>
+<body>
+
+<!-- Header + Nav (same style as site) -->
+<header>
+  <img src="logo MGICOET.jpg" alt="Logo">
+  <div class="title">
+    <h1>ITSA Admin Panel</h1>
+    <div class="small">Manage Events • Members • ITSA Body • Announcements • Users</div>
+  </div>
+  <img src="logo.png" alt="Logo2">
+</header>
+
+<nav>
+  <a href="Itsa Platform.html">Home</a>
+  <a href="events.html">Events</a>
+  <a href="Alumni.html">Alumni</a>
+  <a href="members.html">Members</a>
+  <a href="Contactus.html">Contact Us</a>
+  <a href="Aboutus.html">About Us</a>
+  <a href="login.html">SignUp/SignIn</a>
+</nav>
+
+<div class="container">
+  <aside class="sidebar">
+    <button data-sec="dashboard" class="active">Dashboard</button>
+    <button data-sec="events">Manage Events</button>
+    <button data-sec="genmembers">General Members</button>
+    <button data-sec="body">ITSA Body (By Year)</button>
+    <button data-sec="announcements">Announcements</button>
+    <button data-sec="users">Registered Students</button>
+    <button data-sec="admins">Admins</button>
+    <button data-sec="settings">Settings / Backup</button>
+    <hr>
+    <button id="logoutBtn" class="btn">Logout</button>
+  </aside>
+
+  <main class="main">
+
+    <!-- DASHBOARD -->
+    <section id="dashboard" class="card section">
+      <h2>Dashboard</h2>
+      <div style="display:flex; gap:12px; flex-wrap:wrap;">
+        <div style="flex:1;" class="card">
+          <strong id="countEvents">0</strong><div class="small">Events</div>
+        </div>
+        <div style="flex:1;" class="card">
+          <strong id="countGenMembers">0</strong><div class="small">General Members</div>
+        </div>
+        <div style="flex:1;" class="card">
+          <strong id="countBodyEntries">0</strong><div class="small">ITSA Body entries (all years)</div>
+        </div>
+        <div style="flex:1;" class="card">
+          <strong id="countUsers">0</strong><div class="small">Registered Students</div>
+        </div>
+      </div>
+      <div style="margin-top:12px;">
+        <div class="small">Logged in as:</div>
+        <div id="currentAdmin" class="small" style="font-weight:700;"></div>
+      </div>
+    </section>
+
+    <!-- EVENTS -->
+    <section id="events" class="card section" style="display:none;">
+      <h2>Manage Events</h2>
+      <div style="display:flex; gap:10px; flex-wrap:wrap;">
+        <input id="ev_title" placeholder="Event title" style="flex:2;">
+        <input id="ev_org" placeholder="Organized by" style="flex:1;">
+        <input id="ev_date" type="date" style="flex:1;">
+        <input id="ev_topic" placeholder="Topic" style="flex:2;">
+        <button class="btn" onclick="eventsAdd()">Add Event</button>
+      </div>
+
+      <table class="table" id="eventsTable">
+        <thead><tr><th>#</th><th>Title</th><th>Organized By</th><th>Date</th><th>Topic</th><th>Action</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </section>
+
+    <!-- GENERAL MEMBERS -->
+    <section id="genmembers" class="card section" style="display:none;">
+      <h2>General Members</h2>
+      <div style="display:flex; gap:10px;">
+        <input id="gm_name" placeholder="Name">
+        <input id="gm_role" placeholder="Role">
+        <button class="btn" onclick="genMemberAdd()">Add</button>
+      </div>
+
+      <table class="table" id="genMembersTable">
+        <thead><tr><th>#</th><th>Name</th><th>Role</th><th>Action</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </section>
+
+    <!-- ITSA BODY BY YEAR -->
+    <section id="body" class="card section" style="display:none;">
+      <h2>ITSA Body — Manage by Year</h2>
+
+      <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap">
+        <label class="small">Select Year:</label>
+        <select id="bodyYearSelect" style="width:160px;" onchange="loadBodyForYear()"></select>
+
+        <input id="body_post" placeholder="Post (e.g. Chairperson)" style="flex:1;">
+        <input id="body_names" placeholder="Names (comma separated)" style="flex:2;">
+        <button class="btn" onclick="bodyAdd()">Add</button>
+      </div>
+
+      <div style="margin-top:12px;">
+        <table class="table" id="bodyTable">
+          <thead><tr><th>#</th><th>Post</th><th>Names</th><th>Action</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ANNOUNCEMENTS -->
+    <section id="announcements" class="card section" style="display:none;">
+      <h2>Announcements</h2>
+      <textarea id="ann_text" rows="3" placeholder="Write announcement..."></textarea>
+      <button class="btn" onclick="announceAdd()">Post</button>
+
+      <table class="table" id="announceTable">
+        <thead><tr><th>#</th><th>Announcement</th><th>Date</th><th>Action</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </section>
+
+    <!-- REGISTERED STUDENTS -->
+    <section id="users" class="card section" style="display:none;">
+      <h2>Registered Students</h2>
+      <div class="small">You can promote a student to admin from the Actions column.</div>
+
+      <table class="table" id="usersTable">
+        <thead><tr><th>#</th><th>Name / Email</th><th>DOB</th><th>Mobile</th><th>Actions</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </section>
+
+    <!-- ADMINS -->
+    <section id="admins" class="card section" style="display:none;">
+      <h2>Admins</h2>
+      <div style="display:flex; gap:8px;">
+        <input id="admin_email" placeholder="Email">
+        <button class="btn" onclick="addAdminManual()">Add Admin</button>
+      </div>
+
+      <table class="table" id="adminsTable">
+        <thead><tr><th>#</th><th>Email</th><th>Action</th></tr></thead><tbody></tbody>
+      </table>
+      <div class="small" style="margin-top:8px;">Note: main admin (<strong>sarangtelrandhe2006@gmail.com</strong>) cannot be removed here.</div>
+    </section>
+
+    <!-- SETTINGS / BACKUP -->
+    <section id="settings" class="card section" style="display:none;">
+      <h2>Settings & Backup</h2>
+
+      <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+        <label style="width:120px">Default Years:</label>
+        <input id="settings_years" placeholder="Comma separated, e.g. 2025-26,2024-25" style="flex:1;">
+      </div>
+      <div style="margin-top:8px;">
+        <button class="btn" onclick="saveYearSettings()">Save Years</button>
+        <button class="btn" onclick="exportBackup()">Export JSON</button>
+        <input type="file" id="importFile" accept="application/json" style="margin-top:8px;" onchange="importBackup(event)">
+      </div>
+      <div class="small" style="margin-top:8px;">Import will replace matching keys — use with caution.</div>
+    </section>
+
+  </main>
+</div>
+
+<div class="footer">© 2025 ITSA Mauli College | Admin Panel</div>
+
+<script>
+/* ----------------------------- Storage keys & helpers ----------------------------- */
+const KEY = {
+  events: "itsa_events",
+  genMembers: "itsa_members",
+  body: "itsa_body", // object keyed by year -> array
+  announcements: "itsa_announcements",
+  users: "itsa_registeredUsers",
+  admins: "itsa_admins", // array of email strings
+  current: "loggedUserEmail",
+  settings: "itsa_settings"
+};
+
+function read(key, fallback){ try{ const v = JSON.parse(localStorage.getItem(key)); return v===null?fallback:(v ?? fallback); }catch{ return fallback; } }
+function write(key, value){ localStorage.setItem(key, JSON.stringify(value)); }
+function sanitize(s){ return String(s ?? "").trim(); }
+
+/* ----------------------------- Ensure initial structures ----------------------------- */
+if(!read(KEY.events, null)) write(KEY.events, []);
+if(!read(KEY.genMembers, null)) write(KEY.genMembers, []);
+if(!read(KEY.body, null)) write(KEY.body, {});
+if(!read(KEY.announcements, null)) write(KEY.announcements, []);
+if(!read(KEY.users, null)) write(KEY.users, []);
+if(!read(KEY.admins, null)) {
+  // if not present, seed with master admin email
+  write(KEY.admins, ["sarangtelrandhe2006@gmail.com"]);
+}
+if(!read(KEY.settings, null)) write(KEY.settings, { years: ["2025-26","2024-25","2023-24"] });
+
+/* ----------------------------- Auth Guard ----------------------------- */
+(function authGuard(){
+  const logged = localStorage.getItem(KEY.current);
+  const admins = read(KEY.admins, []);
+  if(!logged || !admins.includes(logged)){
+    alert("Access Denied! Please sign in as admin.");
+    location.href = "admin-login.html";
+    return;
+  }
+  document.getElementById("currentAdmin").innerText = logged;
+})();
+
+/* ----------------------------- Sidebar navigation ----------------------------- */
+document.querySelectorAll(".sidebar button[data-sec]").forEach(b=>{
+  b.addEventListener("click", ()=> {
+    document.querySelectorAll(".sidebar button").forEach(x=>x.classList.remove("active"));
+    b.classList.add("active");
+    const sec = b.getAttribute("data-sec");
+    document.querySelectorAll(".section").forEach(s=>s.style.display="none");
+    document.getElementById(sec).style.display = "block";
+    // load content for shown section
+    if(sec === "events") renderEvents();
+    if(sec === "genmembers") renderGenMembers();
+    if(sec === "body") { populateYearSelect(); loadBodyYears(); renderBodyTable(); }
+    if(sec === "announcements") renderAnnouncements();
+    if(sec === "users") renderUsers();
+    if(sec === "admins") renderAdmins();
+    if(sec === "settings") loadSettingsUI();
+    updateCounts();
+  });
+});
+// initial active is dashboard already
+
+/* logout */
+document.getElementById("logoutBtn").addEventListener("click", ()=>{
+  localStorage.removeItem(KEY.current);
+  location.href = "admin-login.html";
+});
+
+/* ----------------------------- Dashboard counts ----------------------------- */
+function updateCounts(){
+  const events = read(KEY.events, []);
+  const gms = read(KEY.genMembers, []);
+  const bodyObj = read(KEY.body, {});
+  const users = read(KEY.users, []);
+  const bodyCount = Object.values(bodyObj).reduce((s,arr)=>s+ (Array.isArray(arr)?arr.length:0), 0);
+  document.getElementById("countEvents").innerText = events.length;
+  document.getElementById("countGenMembers").innerText = gms.length;
+  document.getElementById("countBodyEntries").innerText = bodyCount;
+  document.getElementById("countUsers").innerText = users.length;
+}
+
+/* ----------------------------- EVENTS ----------------------------- */
+function eventsAdd(){
+  const title = sanitize(document.getElementById("ev_title").value);
+  const org = sanitize(document.getElementById("ev_org").value);
+  const date = document.getElementById("ev_date").value;
+  const topic = sanitize(document.getElementById("ev_topic").value);
+  if(!title || !date){ alert("Title and date required"); return; }
+  const arr = read(KEY.events, []);
+  arr.unshift({ title, org, date, topic });
+  write(KEY.events, arr);
+  document.getElementById("ev_title").value = ""; document.getElementById("ev_org").value=""; document.getElementById("ev_date").value=""; document.getElementById("ev_topic").value="";
+  renderEvents(); updateCounts();
+}
+function renderEvents(){
+  const arr = read(KEY.events, []);
+  const tbody = document.querySelector("#eventsTable tbody");
+  tbody.innerHTML = "";
+  arr.forEach((e,i)=>{
+    const tr = document.createElement("tr");
+    tr.innerHTML = `<td>${i+1}</td><td>${e.title}</td><td>${e.org||""}</td><td>${e.date||""}</td><td>${e.topic||""}</td>
+      <td>
+        <button class="btn" onclick="editEvent(${i})">Edit</button>
+        <button class="btn danger" onclick="deleteEvent(${i})">Delete</button>
+      </td>`;
+    tbody.appendChild(tr);
+  });
+}
+function editEvent(i){
+  const arr = read(KEY.events, []);
+  const e = arr[i];
+  const title = prompt("Edit title", e.title);
+  if(title===null) return;
+  const date = prompt("Edit date (YYYY-MM-DD)", e.date);
+  if(date===null) return;
+  const org = prompt("Edit organized by", e.org||"");
+  const topic = prompt("Edit topic", e.topic||"");
+  e.title = sanitize(title); e.date = date; e.org = sanitize(org); e.topic = sanitize(topic);
+  write(KEY.events, arr); renderEvents(); updateCounts();
+}
+function deleteEvent(i){ if(!confirm("Delete this event?")) return; const arr=read(KEY.events,[]); arr.splice(i,1); write(KEY.events,arr); renderEvents(); updateCounts(); }
+
+/* ----------------------------- General Members ----------------------------- */
+function genMemberAdd(){
+  const name = sanitize(document.getElementById("gm_name").value);
+  const role = sanitize(document.getElementById("gm_role").value);
+  if(!name || !role) { alert("Enter name and role"); return; }
+  const arr = read(KEY.genMembers, []);
+  arr.unshift({ name, role });
+  write(KEY.genMembers, arr);
+  document.getElementById("gm_name").value=""; document.getElementById("gm_role").value="";
+  renderGenMembers(); updateCounts();
+}
+function renderGenMembers(){
+  const arr = read(KEY.genMembers, []);
+  const tbody = document.querySelector("#genMembersTable tbody");
+  tbody.innerHTML = "";
+  arr.forEach((m,i)=>{
+    const tr = document.createElement("tr");
+    tr.innerHTML = `<td>${i+1}</td><td>${m.name}</td><td>${m.role}</td>
+      <td>
+        <button class="btn" onclick="editGenMember(${i})">Edit</button>
+        <button class="btn danger" onclick="deleteGenMember(${i})">Delete</button>
+      </td>`;
+    tbody.appendChild(tr);
+  });
+}
+function editGenMember(i){ const arr=read(KEY.genMembers,[]); const m=arr[i]; const name=prompt("Edit name", m.name); if(name===null) return; const role=prompt("Edit role", m.role); if(role===null) return; m.name=sanitize(name); m.role=sanitize(role); write(KEY.genMembers,arr); renderGenMembers(); }
+function deleteGenMember(i){ if(!confirm("Delete member?")) return; const arr=read(KEY.genMembers,[]); arr.splice(i,1); write(KEY.genMembers,arr); renderGenMembers(); updateCounts(); }
+
+/* ----------------------------- ITSA BODY (per-year) ----------------------------- */
+function getYears(){ const s = read(KEY.settings, {years:["2025-26","2024-25","2023-24"]}); return s.years || ["2025-26","2024-25","2023-24"]; }
+function populateYearSelect(){
+  const sel = document.getElementById("bodyYearSelect");
+  sel.innerHTML = "";
+  getYears().forEach(y=>{
+    const opt = document.createElement("option"); opt.value = y; opt.innerText = y; sel.appendChild(opt);
+  });
+}
+function loadBodyForYear(){ renderBodyForYear(document.getElementById("bodyYearSelect").value); }
+function loadBodyYears(){ // ensure body object has years
+  const body = read(KEY.body, {});
+  getYears().forEach(y=> { if(!Array.isArray(body[y])) body[y]=[]; });
+  write(KEY.body, body);
+}
+function bodyAdd(){
+  const year = document.getElementById("bodyYearSelect").value;
+  const post = sanitize(document.getElementById("body_post").value);
+  const namesRaw = sanitize(document.getElementById("body_names").value);
+  if(!post || !namesRaw) { alert("Provide post and names"); return; }
+  const names = namesRaw.split(",").map(s=>sanitize(s)).filter(Boolean);
+  const body = read(KEY.body, {});
+  if(!Array.isArray(body[year])) body[year]=[];
+  body[year].unshift({ post, names });
+  write(KEY.body, body);
+  document.getElementById("body_post").value=""; document.getElementById("body_names").value="";
+  renderBodyForYear(year); updateCounts();
+}
+function renderBodyForYear(year){
+  const body = read(KEY.body, {});
+  const arr = body[year] || [];
+  const tbody = document.querySelector("#bodyTable tbody");
+  tbody.innerHTML = "";
+  arr.forEach((b,i)=>{
+    const namesHTML = b.names.map(n=>sanitize(n)).join("<br>");
+    const tr = document.createElement("tr");
+    tr.innerHTML = `<td>${i+1}</td><td>${b.post}</td><td>${namesHTML}</td>
+      <td>
+        <button class="btn" onclick="editBody('${year}',${i})">Edit</button>
+        <button class="btn danger" onclick="deleteBody('${year}',${i})">Delete</button>
+      </td>`;
+    tbody.appendChild(tr);
+  });
+}
+function renderBodyTable(){ const year = document.getElementById("bodyYearSelect").value || getYears()[0]; renderBodyForYear(year); }
+function editBody(year,i){
+  const body = read(KEY.body, {});
+  const item = body[year][i];
+  const post = prompt("Edit post", item.post); if(post===null) return;
+  const names = prompt("Edit names (comma separated)", item.names.join(", ")); if(names===null) return;
+  item.post = sanitize(post); item.names = names.split(",").map(s=>sanitize(s)).filter(Boolean);
+  write(KEY.body, body); renderBodyForYear(year);
+}
+function deleteBody(year,i){ if(!confirm("Delete this post?")) return; const body=read(KEY.body,{}); body[year].splice(i,1); write(KEY.body,body); renderBodyForYear(year); updateCounts(); }
+
+/* ----------------------------- ANNOUNCEMENTS ----------------------------- */
+function announceAdd(){ const txt = sanitize(document.getElementById("ann_text").value); if(!txt){ alert("Enter announcement"); return;} const arr=read(KEY.announcements,[]); arr.unshift({text:txt,date:new Date().toISOString()}); write(KEY.announcements,arr); document.getElementById("ann_text").value=""; renderAnnouncements(); }
+function renderAnnouncements(){ const arr=read(KEY.announcements,[]); const tbody=document.querySelector("#announceTable tbody"); tbody.innerHTML=""; arr.forEach((a,i)=>{ const tr=document.createElement("tr"); tr.innerHTML=`<td>${i+1}</td><td>${a.text}</td><td>${new Date(a.date).toLocaleString()}</td><td><button class="btn danger" onclick="deleteAnnouncement(${i})">Delete</button></td>`; tbody.appendChild(tr); }); }
+function deleteAnnouncement(i){ if(!confirm("Delete?")) return; const arr=read(KEY.announcements,[]); arr.splice(i,1); write(KEY.announcements,arr); renderAnnouncements(); }
+
+/* ----------------------------- REGISTERED USERS ----------------------------- */
+function renderUsers(){
+  const users = read(KEY.users, []);
+  const tbody = document.querySelector("#usersTable tbody");
+  tbody.innerHTML = "";
+  users.forEach((u,i)=>{
+    const name = `${u.fname || ""} ${u.lname || ""}`;
+    const tr = document.createElement("tr");
+    tr.innerHTML = `<td>${i+1}</td><td>${name}<br><small>${u.email||""}</small></td><td>${u.dob||""}</td><td>${u.mobile||""}</td>
+      <td>
+        <button class="btn" onclick="promoteUser(${i})">Promote to Admin</button>
+        <button class="btn danger" onclick="deleteUser(${i})">Delete</button>
+      </td>`;
+    tbody.appendChild(tr);
+  });
+}
+function promoteUser(i){
+  const users = read(KEY.users, []);
+  const u = users[i];
+  if(!u || !u.email){ alert("User missing email"); return; }
+  const admins = read(KEY.admins, []);
+  if(admins.includes(u.email)){ alert("Already admin"); return; }
+  if(!confirm(`Promote ${u.email} to admin?`)) return;
+  admins.push(u.email);
+  write(KEY.admins, admins);
+  alert("User promoted to admin.");
+  renderAdmins();
+}
+function deleteUser(i){ if(!confirm("Delete this user?")) return; const arr=read(KEY.users,[]); arr.splice(i,1); write(KEY.users,arr); renderUsers(); updateCounts(); }
+
+/* ----------------------------- ADMINS ----------------------------- */
+function renderAdmins(){
+  const admins = read(KEY.admins, []);
+  const tbody = document.querySelector("#adminsTable tbody");
+  tbody.innerHTML = "";
+  const current = localStorage.getItem(KEY.current);
+  admins.forEach((a,i)=>{
+    const tr = document.createElement("tr");
+    tr.innerHTML = `<td>${i+1}</td><td>${a}</td>
+      <td>
+        ${ a === "sarangtelrandhe2006@gmail.com" ? '<span class="small">Main admin</span>' : `<button class="btn danger" onclick="removeAdmin(${i})">Remove</button>`}
+      </td>`;
+    tbody.appendChild(tr);
+  });
+}
+function addAdminManual(){
+  const email = sanitize(document.getElementById("admin_email").value);
+  if(!email) return alert("Enter email");
+  const admins = read(KEY.admins, []);
+  if(admins.includes(email)) return alert("Already admin");
+  admins.push(email); write(KEY.admins, admins); document.getElementById("admin_email").value=""; renderAdmins();
+}
+function removeAdmin(idx){
+  const admins = read(KEY.admins, []);
+  const email = admins[idx];
+  if(email === "sarangtelrandhe2006@gmail.com"){ return alert("Cannot remove main admin."); }
+  if(!confirm("Remove admin "+email+"?")) return;
+  admins.splice(idx,1); write(KEY.admins, admins); renderAdmins();
+}
+
+/* ----------------------------- SETTINGS & BACKUP ----------------------------- */
+function loadSettingsUI(){
+  const s = read(KEY.settings, { years: getYears() });
+  document.getElementById("settings_years").value = (s.years || []).join(",");
+}
+function saveYearSettings(){
+  const val = sanitize(document.getElementById("settings_years").value);
+  const years = val ? val.split(",").map(s=>sanitize(s)).filter(Boolean) : getYears();
+  write(KEY.settings, { years });
+  // ensure body object has entries for all years
+  const body = read(KEY.body, {});
+  years.forEach(y => { if(!Array.isArray(body[y])) body[y]=[]; });
+  write(KEY.body, body);
+  populateYearSelect();
+  loadBodyYears();
+  alert("Years saved. Body store updated.");
+}
+function exportBackup(){
+  const blob = new Blob([ JSON.stringify({
+    events: read(KEY.events,[]),
+    genMembers: read(KEY.genMembers,[]),
+    body: read(KEY.body,{}),
+    announcements: read(KEY.announcements,[]),
+    users: read(KEY.users,[]),
+    admins: read(KEY.admins,[]),
+    settings: read(KEY.settings,{})
+  }, null, 2) ], {type:"application/json"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a"); a.href=url; a.download = "itsa-backup.json"; a.click();
+  URL.revokeObjectURL(url);
+}
+function importBackup(e){
+  const f = e.target.files[0];
+  if(!f) return;
+  const reader = new FileReader();
+  reader.onload = function(ev){
+    try{
+      const data = JSON.parse(ev.target.result);
+      if(confirm("Importing will overwrite existing related data. Proceed?")){
+        if(data.events) write(KEY.events, data.events);
+        if(data.genMembers) write(KEY.genMembers, data.genMembers);
+        if(data.body) write(KEY.body, data.body);
+        if(data.announcements) write(KEY.announcements, data.announcements);
+        if(data.users) write(KEY.users, data.users);
+        if(data.admins) write(KEY.admins, data.admins);
+        if(data.settings) write(KEY.settings, data.settings);
+        alert("Import complete. Reloading UI.");
+        renderEvents(); renderGenMembers(); renderBodyTable(); renderAnnouncements(); renderUsers(); renderAdmins(); updateCounts();
+      }
+    }catch(err){ alert("Invalid JSON"); }
+  };
+  reader.readAsText(f);
+}
+
+/* ----------------------------- init & helpers ----------------------------- */
+function loadBodyYears(){ populateYearSelect(); loadBodyForYear(); renderBodyTable(); }
+function renderBodyTable(){ const sel = document.getElementById("bodyYearSelect"); if(!sel.value) populateYearSelect(); renderBodyForYear(sel.value || getYears()[0]); }
+
+/* helper to render current displayed */
+function renderBodyForYear(year){ renderBodyForYear = renderBodyForYear; /* placeholder to avoid lint */; renderBodyForYear = function(y){ renderBodyForYearInternal(y);} }
+function renderBodyForYearInternal(y){
+  const body = read(KEY.body, {});
+  const arr = body[y] || [];
+  const tbody = document.querySelector("#bodyTable tbody");
+  tbody.innerHTML = "";
+  arr.forEach((b,i)=>{
+    const tr = document.createElement("tr");
+    tr.innerHTML = `<td>${i+1}</td><td>${b.post}</td><td>${b.names.map(n=>sanitize(n)).join("<br>")}</td>
+      <td>
+        <button class="btn" onclick="editBody('${y}',${i})">Edit</button>
+        <button class="btn danger" onclick="deleteBody('${y}',${i})">Delete</button>
+      </td>`;
+    tbody.appendChild(tr);
+  });
+}
+
+/* Expose some functions globally used above that need hoisting */
+window.renderBodyForYear = function(y){ renderBodyForYearInternal(y); };
+window.editBody = editBody;
+window.deleteBody = deleteBody;
+
+/* ----------------------------- initial rendering ----------------------------- */
+(function init(){
+  populateYearSelect();
+  loadBodyYears();
+  renderEvents(); renderGenMembers(); renderAnnouncements(); renderUsers(); renderAdmins(); updateCounts();
+  // ensure dashboard visible
+  document.querySelectorAll(".section").forEach(s=>s.style.display="none");
+  document.getElementById("dashboard").style.display = "block";
+})();
+
+</script>
+</body>
+</html>
