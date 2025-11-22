@@ -7,7 +7,6 @@
 
   <style>
 
-    /* ⭐ Light Background Image Behind Whole Page */
     body::before {
       content: "";
       position: fixed;
@@ -20,16 +19,15 @@
       z-index: -1;
     }
 
-    /* ⭐ FIXED BODY FOR FOOTER */
     body {
       margin: 0;
       font-family: Arial, sans-serif;
       background-color: #dadada;
       color: #333;
 
-      display: flex;              /* Added */
-      flex-direction: column;     /* Added */
-      min-height: 100vh;          /* Added */
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh; 
     }
 
     header {
@@ -61,7 +59,6 @@
       flex: 1;
     }
 
-    /* ⭐ Full-Width Navigation Bar */
     nav {
       width: 100%;
       background: red;
@@ -90,20 +87,18 @@
       border-color: white;
     }
 
-
-    .hero {
+.hero {
   color: black;
   height: 50vh;          
   text-align: center;
 
-  display: flex;           /* NEW */
-  flex-direction: column;  /* NEW */
-  justify-content: center; /* NEW → centers vertically */
-  align-items: center;     /* NEW → centers horizontally */
+  display: flex;
+  flex-direction: column;  
+  justify-content: center; 
+  align-items: center;     
 
-  padding: 0 40px;         /* Reduced padding to avoid pushing text */
+  padding: 0 40px;         
 }
-
 
     .hero h1 {
       font-size: 2.5em;
@@ -115,13 +110,12 @@
       margin-bottom: 30px;
     }
 
-
     footer {
       background-color: red;
       color: white;
       text-align: center;
       padding: 1px 0;
-      margin-top: auto;          /* Added to push footer down */
+      margin-top: auto;
     }
 
   </style>
@@ -147,16 +141,15 @@
 <nav id="navbar">
   <a href="index.html">Home</a>
 
-  <!-- Protected Tabs (Visible Only After Login) -->
+  <!-- Protected Tabs -->
   <a href="events.html" class="protected">Events</a>
   <a href="Alumni.html" class="protected">Alumni</a>
   <a href="members.html" class="protected">Members</a>
 
-  <!-- Always Visible -->
   <a href="Contactus.html">Contact Us</a>
   <a href="Aboutus.html">About Us</a>
 
-   <!-- Login / Logout -->
+  <!-- Login Button -->
   <a href="login.html" id="loginBtn">SignUp/SignIn</a>
 </nav>
 
@@ -180,31 +173,29 @@
 </footer>
 
 <script>
-// ⭐ CONTROL TAB VISIBILITY BASED ON LOGIN
+// ⭐ SHOW / HIDE TABS + CHANGE LOGIN BUTTON
 function updateNavigation() {
   const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
 
   const protectedTabs = document.querySelectorAll(".protected");
-  const userTab = document.getElementById("userTab");
   const loginBtn = document.getElementById("loginBtn");
 
-  // Show protected tabs only if logged in
+  // Show protected tabs only when logged in
   protectedTabs.forEach(tab => {
     tab.style.display = isLoggedIn ? "inline-block" : "none";
   });
 
-  // Show user tab only when NOT logged in
-  userTab.style.display = isLoggedIn ? "none" : "inline-block";
-
-  // Change login button to logout
+  // Change SignUp/SignIn to Logout
   if (isLoggedIn) {
     loginBtn.textContent = "Logout";
     loginBtn.href = "#";
+
     loginBtn.onclick = function () {
       localStorage.removeItem("isLoggedIn");
       alert("Logged out successfully!");
       location.reload();
     };
+
   } else {
     loginBtn.textContent = "SignUp/SignIn";
     loginBtn.href = "login.html";
@@ -212,7 +203,6 @@ function updateNavigation() {
   }
 }
 
-// Run when page loads
 updateNavigation();
 </script>
 

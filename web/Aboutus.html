@@ -16,6 +16,17 @@
       background-color: #dadada;
     }
 
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+footer {
+  margin-top: auto;
+}
+
+
     /* ⭐ FULL-SCREEN HEADER */
     header {
       background-color: #8B0000;
@@ -157,12 +168,11 @@
   </footer>
 
 <script>
-// ⭐ CONTROL TAB VISIBILITY BASED ON LOGIN
+// ⭐ CONTROL TAB VISIBILITY + LOGIN/LOGOUT BUTTON
 function updateNavigation() {
   const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
 
   const protectedTabs = document.querySelectorAll(".protected");
-  const userTab = document.getElementById("userTab");
   const loginBtn = document.getElementById("loginBtn");
 
   // Show protected tabs only if logged in
@@ -170,10 +180,7 @@ function updateNavigation() {
     tab.style.display = isLoggedIn ? "inline-block" : "none";
   });
 
-  // Show user tab only when NOT logged in
-  userTab.style.display = isLoggedIn ? "none" : "inline-block";
-
-  // Change SignUp/SignIn to Logout
+  // Change SignUp/SignIn to Logout when logged in
   if (isLoggedIn) {
     loginBtn.textContent = "Logout";
     loginBtn.href = "#";
@@ -191,7 +198,6 @@ function updateNavigation() {
   }
 }
 
-// Run on page load
 updateNavigation();
 </script>
 
