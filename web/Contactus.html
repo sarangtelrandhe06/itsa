@@ -55,12 +55,10 @@
       gap: 12px;
       padding: 14px 0;
       box-sizing: border-box;
-
-
     }
 
     nav a {
-       background: white;
+      background: white;
       color: #8B0000;
       padding: 8px 18px;
       border-radius: 18px;
@@ -69,7 +67,6 @@
       font-size: 14px;
       border: 1px solid transparent;
       transition: 0.25s ease;
-
     }
 
     nav a:hover {
@@ -87,7 +84,6 @@
       border-radius: 12px;
       box-shadow: 0 0 15px rgba(0,0,0,0.3);
       text-align: center;
-
     }
 
     .contact-container h2 {
@@ -96,7 +92,6 @@
       margin-bottom: 8px;
       font-size: 30px;
       margin-top: 15px;
-
     }
 
     .contact-container p {
@@ -170,6 +165,7 @@
       height: 45px;
       line-height: 45px;
       font-size: 14px;
+      margin-top: auto; 
     }
   </style>
 
@@ -191,22 +187,26 @@
     <img src="logo.png" alt="ITSA Logo">
   </header>
 
-  <!-- ⭐ NAVIGATION -->
-  <nav>
-    <a href="Itsa Platform.html">Home</a>
-    <a href="events.html">Events</a>
-    <a href="Alumni.html">Alumni</a>
-    <a href="members.html">Members</a>
+  <!-- ⭐ NAVIGATION (UPDATED ✔) -->
+  <nav id="navbar">
+    <a href="index.html">Home</a>
+
+    <!-- These will hide when user is not logged in -->
+    <a href="events.html" class="requires-login">Events</a>
+    <a href="Alumni.html" class="requires-login">Alumni</a>
+    <a href="members.html" class="requires-login">Members</a>
+
     <a href="Contactus.html">Contact Us</a>
     <a href="Aboutus.html">About Us</a>
-    <a href="login.html">SignUp/SignIn</a>
+
+    <a href="login.html" id="loginBtn">SignUp/SignIn</a>
   </nav>
 
   <!-- ⭐ CONTACT FORM -->
   <div class="contact-container">
 
     <h2>Contact Us</h2>
-       <form>
+    <form>
       <label>Name:</label>
       <input type="text" placeholder="Enter your name">
 
@@ -215,13 +215,13 @@
 
       <label>Message:</label>
       <textarea rows="4" placeholder="Write your message"></textarea>
-<br><br>
+      <br><br>
       <button type="submit">Send Message</button>
     </form>
 
     <div class="contact-info">
       <p><strong>Phone:</strong> +91 98765 43210</p>
-      <p><strong>Email:</strong> info@mysite.com</p>
+      <p><strong>Email:</strong>maulicoet@gmail.com</p>
       <a href="https://www.instagram.com/mgicoet_itsa?igsh=MWcwcmNzZTdkNjFlag==">| Instagram |</a>
     </div>
 
@@ -233,24 +233,39 @@
   </footer>
 
 <script>
-// ⭐ CHANGE SIGNUP/SIGNIN TO LOGOUT AFTER LOGIN
-function updateLoginButton() {
-  const loginLink = document.querySelector('nav a[href="login.html"]');
+/* ⭐ UPDATE NAVIGATION BASED ON LOGIN STATUS */
+function updateNavigation() {
+  const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
 
-  if (localStorage.getItem("isLoggedIn") === "true") {
-    loginLink.textContent = "Logout";
-    loginLink.href = "#";
+  const loginBtn = document.getElementById("loginBtn");
+  const restrictedTabs = document.querySelectorAll(".requires-login");
 
-    loginLink.onclick = function () {
+  if (isLoggedIn) {
+    // Show restricted tabs
+    restrictedTabs.forEach(tab => tab.style.display = "inline-block");
+
+    // Change to Logout
+    loginBtn.textContent = "Logout";
+    loginBtn.href = "#";
+
+    loginBtn.onclick = function () {
       localStorage.removeItem("isLoggedIn");
       alert("Logged out successfully!");
       location.reload();
     };
+
+  } else {
+    // Hide restricted tabs
+    restrictedTabs.forEach(tab => tab.style.display = "none");
+
+    // Show SignUp/SignIn
+    loginBtn.textContent = "SignUp/SignIn";
+    loginBtn.href = "login.html";
+    loginBtn.onclick = null;
   }
 }
 
-// Run on page load
-updateLoginButton();
+updateNavigation();
 </script>
 
 </body>

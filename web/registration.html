@@ -69,10 +69,16 @@
     padding: 25px;
   }
 
+  .inner-box {
+    width: 500px;
+    padding: 20px;
+    margin-left: 20%;
+    text-align: left;
+  }
+
   .sign { text-align: center; }
 
-  input[type="text"], input[type="password"], input[type="date"], 
-  input[type="email"], select {
+  input[type="text"], input[type="password"], input[type="email"], select {
     width: 60%;
     padding: 10px;
     margin-top: 5px;
@@ -89,6 +95,7 @@
     padding: 10px 20px;
     border-radius: 5px;
     cursor: pointer;
+    margin-left: 140px;
   }
 
   .submit:hover {
@@ -97,7 +104,7 @@
 
   .bottom {
     margin-top: 15px;
-    text-align: center;
+    margin-left: 70px;
   }
 
   footer {
@@ -105,11 +112,10 @@
     background-color: red;
     color: white;
     text-align: center;
-    padding: 0;
-    margin: 0;
     height: 45px;
     line-height: 45px;
     font-size: 14px;
+    margin-top: auto; 
   }
 </style>
 </head>
@@ -128,39 +134,38 @@
   <img src="logo.png" alt="ITSA Logo">
 </header>
 
-<nav>
-  <a href="Itsa Platform.html">Home</a>
-  <a href="events.html">Events</a>
-  <a href="Alumni.html">Alumni</a>
-  <a href="members.html">Members</a>
+<!-- ⭐ UPDATED NAVIGATION -->
+<nav id="navbar">
+  <a href="index.html">Home</a>
+
+  <!-- Hidden until user logs in -->
+  <a href="events.html" class="requires-login">Events</a>
+  <a href="Alumni.html" class="requires-login">Alumni</a>
+  <a href="members.html" class="requires-login">Members</a>
+
   <a href="Contactus.html">Contact Us</a>
   <a href="Aboutus.html">About Us</a>
-  <a href="login.html">SignUp/SignIn</a>
+  <a href="login.html" id="loginBtn">SignUp/SignIn</a>
 </nav>
 
 <div class="register-container">
-<div class="sign">
- <h1>Sign Up</h1>
-</div>
+
+<div class="sign"><h1>Sign Up</h1></div>
+
+<div class="inner-box">
 
 <form id="registerForm">
 
   <label>Student Name :</label><br>
   <div class="name-group">
-    <input type="text" name="fname" id="fname" placeholder="First name">
-    <input type="text" name="mname" id="mname" placeholder="Middle name">
-    <input type="text" name="lname" id="lname" placeholder="Last name">
+    <input type="text" id="fname" placeholder="First name">
+    <input type="text" id="lname" placeholder="Last name">
   </div>
 
 <br>
 
-  <label>Roll No :</label><br>
-  <input type="text" name="rollno" id="rollno" placeholder="Enter your Roll No">
-
-<br><br>
-
   <label>Course :</label><br>
-  <select name="Course" id="course">
+  <select id="course">
     <option>----- Select Current Course -----</option>
     <option>B.E</option>
   </select>
@@ -168,7 +173,7 @@
 <br><br>
 
   <label>Year :</label><br>
-  <select name="Year" id="year">
+  <select id="year">
     <option>----- Select Current Academic Year -----</option>
     <option>First Year</option>
     <option>Second Year</option>
@@ -179,102 +184,103 @@
 <br><br>
 
   <label>Department :</label><br>
-  <input type="checkbox" name="Department" id="dept" value="IT"> IT
-
-<br><br>
-
-  <label>Date Of Birth :</label><br>
-  <input type="date" name="dob" id="dob">
-
-<br><br>
-
-  <label>Mobile No :</label><br>
-  <input type="text" name="mobile" id="mobile" placeholder="+91">
+  <input type="checkbox" id="dept" value="IT"> IT
 
 <br><br>
 
   <label>Email ID :</label><br>
-  <input type="email" name="email" id="email" placeholder="Enter your Email">
+  <input type="email" id="email" placeholder="Enter your Email">
 
 <br><br>
 
   <label>Password :</label><br>
-  <input type="password" name="password" id="password" placeholder="Enter your password">
+  <input type="password" id="password" placeholder="Enter your password">
 
 <br><br>
 
-  <label>Gender :</label><br>
-  <input type="radio" name="gender" value="Male"> Male
-  <input type="radio" name="gender" value="Female"> Female
+<!-- ⭐ SECURITY QUESTION (Dropdown + Answer Input) -->
+<label>Security Question:</label><br>
+<select id="securityQ">
+  <option>Select</option>
+  <option>Favourite Color</option>
+  <option>Favourite Food</option>
+  <option>Favourite Teacher Name</option>
+  <option>Best Friend Name</option>
+  <option>College Name</option>
+</select>
 
 <br><br>
 
-  <label>Address :</label><br>
-  <input type="text" name="address" id="address" placeholder="Enter your Address">
+<label>Answer:</label><br>
+<input type="text" id="securityA" placeholder="Enter your answer">
 
 <br><br>
 
   <input type="submit" class="submit" value="Submit">
 
+</form>
+
 <div class="bottom">
-      <br>
-      Already have an account? <a href="login.html">Sign In</a>
+  <br>Already have an account? <a href="login.html">Sign In</a>
 </div>
 
-</form>
+</div>
 </div>
 
 <footer>
   © 2025 ITSA Mauli College | All Rights Reserved
 </footer>
 
-<!-- ⭐ ADD LOCAL STORAGE SCRIPT BELOW -->
+<!-- ⭐ SAVE USER INCLUDING SECURITY QUESTION -->
 <script>
 document.getElementById("registerForm").addEventListener("submit", function(e){
   e.preventDefault();
 
-  let genderValue = document.querySelector("input[name='gender']:checked");
-  
-  const userData = {
-    fname: fname.value,
-    mname: mname.value,
-    lname: lname.value,
-    rollno: rollno.value,
-    email: email.value,
-    password: password.value,
-    course: course.value,
-    year: year.value,
-    dept: document.getElementById("dept").checked ? "IT" : "None",
-    dob: dob.value,
-    mobile: mobile.value,
-    gender: genderValue ? genderValue.value : "",
-    address: address.value
+  let user = {
+    fname: document.getElementById("fname").value,
+    lname: document.getElementById("lname").value,
+    course: document.getElementById("course").value,
+    year: document.getElementById("year").value,
+    dept: document.getElementById("dept").checked ? "IT" : "",
+    email: document.getElementById("email").value,
+    password: document.getElementById("password").value,
+
+    // ⭐ Store Question + Answer
+    securityQ: document.getElementById("securityQ").value,
+    securityA: document.getElementById("securityA").value.trim().toLowerCase()
   };
 
-  localStorage.setItem("registeredUser", JSON.stringify(userData));
+  localStorage.setItem("registeredUser", JSON.stringify(user));
 
-  alert("Registration successful! Please login now.");
+  alert("Registration Successful!");
   window.location.href = "login.html";
 });
+</script>
 
-// ⭐ CHANGE SIGNUP/SIGNIN TO LOGOUT AFTER LOGIN
-function updateLoginButton() {
-  const loginLink = document.querySelector('nav a[href="login.html"]');
+<!-- ⭐ LOGIN NAVIGATION CONTROL -->
+<script>
+function updateNavigation() {
+  const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+  const loginBtn = document.getElementById("loginBtn");
+  const restrictedTabs = document.querySelectorAll(".requires-login");
 
-  if (localStorage.getItem("isLoggedIn") === "true") {
-    loginLink.textContent = "Logout";
-    loginLink.href = "#";
-
-    loginLink.onclick = function () {
+  if (isLoggedIn) {
+    restrictedTabs.forEach(tab => tab.style.display = "inline-block");
+    loginBtn.textContent = "Logout";
+    loginBtn.href = "#";
+    loginBtn.onclick = function () {
       localStorage.removeItem("isLoggedIn");
       alert("Logged out successfully!");
       location.reload();
     };
+  } else {
+    restrictedTabs.forEach(tab => tab.style.display = "none");
+    loginBtn.textContent = "SignUp/SignIn";
+    loginBtn.href = "login.html";
+    loginBtn.onclick = null;
   }
 }
-
-// Run on page load
-updateLoginButton();
+updateNavigation();
 </script>
 
 </body>

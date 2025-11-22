@@ -12,124 +12,112 @@
             margin: 0;
         }
 
-         header {
-      background-color: #8B0000;
-      margin: 0;
-      padding: 0;
-      width: 100%;
-      height: 150px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      text-align: center;
-    }
+        header {
+            background-color: #8B0000;
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            text-align: center;
+        }
 
-    header h1, header p, header .title, header .title * {
-      color: white !important;
-    }
+        header h1, header p, header .title, header .title * {
+            color: white !important;
+        }
 
-    header img {
-      width: 120px;
-      height: 120px;
-      margin: 0 20px;
-      border-radius: 50%;
-      background-color: white;
-      object-fit: cover;
-    }
+        header img {
+            width: 120px;
+            height: 120px;
+            margin: 0 20px;
+            border-radius: 50%;
+            background-color: white;
+            object-fit: cover;
+        }
 
-    header .title {
-      flex: 1;
-    }
+        header .title {
+            flex: 1;
+        }
 
-    nav {
-       width: 100%;
-      background: red;
-      display: flex;
-      justify-content: center;
-      gap: 12px;
-      padding: 14px 0;
-      box-sizing: border-box;
-    }
+        nav {
+            width: 100%;
+            background: red;
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            padding: 14px 0;
+            box-sizing: border-box;
+        }
 
-    nav a {
-      background: white;
-      color: #8B0000;
-      padding: 8px 18px;
-      border-radius: 18px;
-      font-weight: 600;
-      text-decoration: none;
-      font-size: 15px;
-      border: 2px solid transparent;
-      transition: 0.25s ease;
-    }
+        nav a {
+            background: white;
+            color: #8B0000;
+            padding: 8px 18px;
+            border-radius: 18px;
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 15px;
+            border: 2px solid transparent;
+            transition: 0.25s ease;
+        }
 
-    nav a:hover {
-      background: #8B0000;
-      color: #ffd700;
-      border-color: white;
-    }
+        nav a:hover {
+            background: #8B0000;
+            color: #ffd700;
+            border-color: white;
+        }
 
-    .container {
-        background-color: white;
-        padding: 30px 40px;
-        border-radius: 10px;
-        box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-        width: 350px;
-        margin: 40px auto;
-    }
+        .container {
+            background-color: white;
+            padding: 30px 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            width: 350px;
+            margin: 40px auto;
+        }
 
-    h2 {
-        text-align: center;
-        color: #2d3436;
-        margin-bottom: 25px;
-    }
+        h2 {
+            text-align: center;
+            color: #2d3436;
+            margin-bottom: 25px;
+        }
 
-    label {
-        display: block;
-        margin-bottom: 6px;
-        color: #2d3436;
-    }
+        label {
+            display: block;
+            margin-bottom: 6px;
+            color: #2d3436;
+        }
 
-    input[type="email"],
-    input[type="date"],
-    input[type="password"],
-    input[type="text"] {
-        width: 100%;
-        padding: 10px;
-        margin-bottom: 10px;
-        border: 1px solid #b2bec3;
-        border-radius: 5px;
-        font-size: 14px;
-        box-sizing: border-box;
-    }
+        input[type="email"],
+        input[type="password"],
+        input[type="text"],
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #b2bec3;
+            border-radius: 5px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
 
-    #otpBox {
-        background: #f1f1f1;
-        padding: 10px;
-        border-radius: 6px;
-        text-align: center;
-        margin-bottom: 12px;
-        display: none;
-        font-weight: bold;
-        color: green;
-        border: 1px dashed green;
-    }
+        input[type="submit"] {
+            width: 100%;
+            background-color: green;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
 
-    input[type="submit"] {
-        width: 100%;
-        background-color: green;
-        color: white;
-        border: none;
-        padding: 12px;
-        border-radius: 5px;
-        font-size: 16px;
-        cursor: pointer;
-        transition: background 0.3s;
-    }
-
-    input[type="submit"]:hover {
-        background-color: lightgreen;
-    }
+        input[type="submit"]:hover {
+            background-color: lightgreen;
+        }
 
 footer {
       background-color: red;
@@ -144,7 +132,7 @@ footer {
 
 <body>
 
-     <header>
+<header>
     <img src="logo MGICOET.jpg" alt="Mauli College Logo">
 
     <div class="title">
@@ -156,69 +144,61 @@ footer {
     </div>
 
     <img src="logo.png" alt="ITSA Logo">
-  </header>
+</header>
 
-<nav>
-  <a href="Itsa Platform.html">Home</a>
-  <a href="events.html">Events</a>
-  <a href="Alumni.html">Alumni</a>
-  <a href="members.html">Members</a>
+<!-- ⭐ UPDATED NAVIGATION -->
+<nav id="navbar">
+  <a href="index.html">Home</a>
+
+  <!-- Hidden until user logs in -->
+  <a href="events.html" class="requires-login">Events</a>
+  <a href="Alumni.html" class="requires-login">Alumni</a>
+  <a href="members.html" class="requires-login">Members</a>
+
   <a href="Contactus.html">Contact Us</a>
   <a href="Aboutus.html">About Us</a>
-  <a href="login.html">SignUp/SignIn</a>
+
+  <a href="login.html" id="loginBtn">SignUp/SignIn</a>
 </nav>
 
-    <div class="container">
-        <h2>Forgot Password</h2>
+<div class="container">
+    <h2>Forgot Password</h2>
 
-        <form id="forgotForm">
+    <form id="forgotForm">
 
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" placeholder="Enter your Email" required>
+        <label>Email:</label>
+        <input type="email" id="email" placeholder="Enter your Email" required>
 
-            <label for="dob">Date of Birth:</label>
-            <input type="date" id="dob" name="dob" required>
+        <!-- ⭐ SECURITY QUESTION -->
+        <label>Select Security Question:</label>
+        <select id="securityQ">
+            <option>Select</option>
+            <option>Favourite Color</option>
+            <option>Favourite Food</option>
+            <option>Favourite Teacher Name</option>
+            <option>Best Friend Name</option>
+            <option>College Name</option>
+        </select>
 
-            <!-- ⭐ LOCAL OTP SYSTEM -->
-            <label for="otp">OTP:</label>
-            <input type="text" id="otp" name="otp" placeholder="Enter OTP" required>
+        <label>Answer:</label>
+        <input type="text" id="securityA" placeholder="Enter your answer" required>
 
-            <button type="button" onclick="generateOTP()" 
-                style="margin-bottom:10px; width:100%; padding:10px;">
-                Generate OTP
-            </button>
+        <label>New Password:</label>
+        <input type="password" id="new_password" placeholder="Enter new password" required>
 
-            <div id="otpBox"></div>
+        <label>Confirm Password:</label>
+        <input type="password" id="confirm_password" placeholder="Confirm new password" required>
 
-            <label for="new_password">New Password:</label>
-            <input type="password" id="new_password" placeholder="Enter new password" required>
-
-            <label for="confirm_password">Confirm Password:</label>
-            <input type="password" id="confirm_password" placeholder="Confirm new password" required>
-
-            <input type="submit" value="Submit">
-        </form>
-    </div>
+        <input type="submit" value="Submit">
+    </form>
+</div>
 
 <footer>
   <p>© 2025 ITSA Mauli College | All Rights Reserved</p>
 </footer>
 
 
-<!-- ⭐ LOCAL OTP SCRIPT -->
-<script>
-let generatedOTP = "";
-
-function generateOTP() {
-    generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
-
-    let otpBox = document.getElementById("otpBox");
-    otpBox.style.display = "block";
-    otpBox.innerText = "Your OTP: " + generatedOTP;
-}
-</script>
-
-<!-- ⭐ FORGOT PASSWORD SCRIPT -->
+<!-- ⭐ FORGOT PASSWORD WITH SECURITY QUESTION MATCHING -->
 <script>
 document.getElementById("forgotForm").addEventListener("submit", function(e){
     e.preventDefault();
@@ -230,9 +210,9 @@ document.getElementById("forgotForm").addEventListener("submit", function(e){
         return;
     }
 
-    let enteredEmail = document.getElementById("email").value;
-    let enteredDOB = document.getElementById("dob").value;
-    let enteredOTP = document.getElementById("otp").value;
+    let enteredEmail = document.getElementById("email").value.trim();
+    let selectedQ = document.getElementById("securityQ").value;
+    let enteredAns = document.getElementById("securityA").value.trim().toLowerCase();
     let newPass = document.getElementById("new_password").value;
     let confirmPass = document.getElementById("confirm_password").value;
 
@@ -241,13 +221,13 @@ document.getElementById("forgotForm").addEventListener("submit", function(e){
         return;
     }
 
-    if (enteredDOB !== savedUser.dob) {
-        alert("❌ Date of Birth does not match!");
+    if (selectedQ !== savedUser.securityQ) {
+        alert("❌ Security question does not match!");
         return;
     }
 
-    if (enteredOTP !== generatedOTP) {
-        alert("❌ Incorrect OTP!");
+    if (enteredAns !== savedUser.securityA) {
+        alert("❌ Incorrect answer!");
         return;
     }
 
@@ -260,9 +240,40 @@ document.getElementById("forgotForm").addEventListener("submit", function(e){
     localStorage.setItem("registeredUser", JSON.stringify(savedUser));
 
     alert("✅ Password Updated Successfully!");
-
     window.location.href = "login.html";
 });
+</script>
+
+<!-- ⭐ LOGIN-BASED NAVIGATION CONTROL -->
+<script>
+function updateNavigation() {
+  const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+
+  const loginBtn = document.getElementById("loginBtn");
+  const restrictedTabs = document.querySelectorAll(".requires-login");
+
+  if (isLoggedIn) {
+    restrictedTabs.forEach(tab => tab.style.display = "inline-block");
+
+    loginBtn.textContent = "Logout";
+    loginBtn.href = "#";
+
+    loginBtn.onclick = function () {
+      localStorage.removeItem("isLoggedIn");
+      alert("Logged out successfully!");
+      location.reload();
+    };
+
+  } else {
+    restrictedTabs.forEach(tab => tab.style.display = "none");
+
+    loginBtn.textContent = "SignUp/SignIn";
+    loginBtn.href = "login.html";
+    loginBtn.onclick = null;
+  }
+}
+
+updateNavigation();
 </script>
 
 </body>

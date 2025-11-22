@@ -92,7 +92,6 @@
     border-radius: 5px;
     cursor: pointer;
     margin-top: 20px;
-
   }
 
   .btn-login:hover {
@@ -111,7 +110,6 @@
     text-align: center;
   }
 
-
   footer {
     width: 100%;
     background-color: red;
@@ -120,6 +118,7 @@
     height: 45px;
     line-height: 45px;
     font-size: 14px;
+    margin-top: auto; 
   }
 
 </style>
@@ -137,18 +136,22 @@
     <img src="logo.png" alt="ITSA Logo">
 </header>
 
-<nav>
-  <a href="Itsa Platform.html">Home</a>
-  <a href="events.html">Events</a>
-  <a href="Alumni.html">Alumni</a>
-  <a href="members.html">Members</a>
+<!-- ⭐ UPDATED NAVIGATION WITH LOGIN FILTER -->
+<nav id="navbar">
+  <a href="index.html">Home</a>
+
+  <!-- Hidden when user not logged in -->
+  <a href="events.html" class="requires-login">Events</a>
+  <a href="Alumni.html" class="requires-login">Alumni</a>
+  <a href="members.html" class="requires-login">Members</a>
+
   <a href="Contactus.html">Contact Us</a>
   <a href="Aboutus.html">About Us</a>
-  <a href="login.html">SignUp/SignIn</a>
+  <a href="login.html" id="loginBtn">SignUp/SignIn</a>
 </nav>
 
 <div class="login-container">
- <h1><center>Log In</center></h1>
+ <h1><center>Sign In</center></h1>
 
   <form id="loginForm">
 
@@ -170,13 +173,12 @@
       Don't have an account? <a href="registration.html">Sign Up</a>
 </div>
 
-
   </form>
 </div>
 
 <footer>© 2025 ITSA Mauli College | All Rights Reserved</footer>
 
-<!-- ⭐ ADD LOGIN CHECK USING LOCAL STORAGE -->
+<!-- ⭐ LOGIN SYSTEM + NAVIGATION CONTROL -->
 <script>
 window.onload = function() {
   if(localStorage.getItem("savedEmail")){
@@ -209,32 +211,42 @@ document.getElementById("loginForm").addEventListener("submit", function(e){
     localStorage.setItem("isLoggedIn", "true");
 
     alert("Login Successful!");
-    window.location.href = "Itsa Platform.html";
+    window.location.href = "index.html";
   }
   else{
     alert("❌ Incorrect email or password!");
   }
 });
 
-// ⭐ CHANGE SIGNUP/SIGNIN TO LOGOUT AFTER LOGIN
-function updateLoginButton() {
-  const loginLink = document.querySelector('nav a[href="login.html"]');
+/* ⭐ UPDATE NAVIGATION BASED ON LOGIN STATUS */
+function updateNavigation() {
+  const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
 
-  if (localStorage.getItem("isLoggedIn") === "true") {
-    loginLink.textContent = "Logout";
-    loginLink.href = "#";
+  const loginBtn = document.getElementById("loginBtn");
+  const restrictedTabs = document.querySelectorAll(".requires-login");
 
-    loginLink.onclick = function () {
+  if (isLoggedIn) {
+    restrictedTabs.forEach(tab => tab.style.display = "inline-block");
+
+    loginBtn.textContent = "Logout";
+    loginBtn.href = "#";
+
+    loginBtn.onclick = function () {
       localStorage.removeItem("isLoggedIn");
       alert("Logged out successfully!");
       location.reload();
     };
+
+  } else {
+    restrictedTabs.forEach(tab => tab.style.display = "none");
+
+    loginBtn.textContent = "SignUp/SignIn";
+    loginBtn.href = "login.html";
+    loginBtn.onclick = null;
   }
 }
 
-// Run on page load
-updateLoginButton();
-
+updateNavigation();
 </script>
 
 </body>
